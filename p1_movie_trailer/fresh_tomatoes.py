@@ -13,7 +13,7 @@ main_page_head = '''
     <!-- Bootstrap 3 -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
-	
+
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <style type="text/css" media="screen">
@@ -56,14 +56,19 @@ main_page_head = '''
             top: 0;
             background-color: white;
         }
-		.movietitle-style {
-			color: orange;
-			text-align: center;
-		}
-		.movietitle-style:hover {
-			color: gray;
-			text-align: center;
-		}
+        .movietitle-style {
+            color: orange;
+            text-align: center;
+        }
+        .movietitle-style:hover {
+            color: gray;
+            text-align: center;
+        }
+        .movie-storyline{
+            color: #000099;
+            text-align: justified;
+            font-size: small;
+        }
     </style>
     <script type="text/javascript" charset="utf-8">
         // Pause the video when the modal is closed
@@ -83,15 +88,13 @@ main_page_head = '''
               'frameborder': 0
             }));
         });
-		
-		// Show storyline when hovering the movie title
-        $( "h2.movietitle-style" ).hover(function() {
-		  $( this ).fadeOut( 100 );
-		  $( this ).fadeIn( 500 );
-		});
 
-        
-		
+        // Show storyline when hovering the movie title
+        $( "h2.movietitle-style" ).hover(function() {
+          $( this ).fadeOut( 100 );
+          $( this ).fadeIn( 500 );
+        });
+
         // Animate in the movies when the page loads
         $(document).ready(function () {
           $('.movie-tile').hide().first().show("fast", function showNext() {
@@ -141,6 +144,7 @@ movie_tile_content = '''
 <div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer" movie-storyline="{story_line}">
     <img src="{poster_image_url}" width="220" height="342">
     <h2 class="movietitle-style">{movie_title}</h2>
+    <p class="movie-storyline">{story_line}</p>
 </div>
 '''
 
@@ -159,10 +163,10 @@ def create_movie_tiles_content(movies):
 
         # Append the tile for the movie with its content filled in
         content += movie_tile_content.format(
-            movie_title=movie.title,
+            movie_title=movie.fullTitle(),
             poster_image_url=movie.poster_image_url,
             trailer_youtube_id=trailer_youtube_id,
-			story_line = movie.storyline
+            story_line=movie.storyline
         )
     return content
 
