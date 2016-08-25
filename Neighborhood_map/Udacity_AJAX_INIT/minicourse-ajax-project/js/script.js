@@ -36,8 +36,11 @@ function loadData() {
         })
 
 
+    $nytHeaderElem.text('NYT articles about ' + cityStr);
     var data
     $.getJSON( nyturl, data, function( data ) {
+        
+        console.log(data);
         var items = [];
         docs = data["response"]["docs"];
         $.each( docs, function( key, val ) {
@@ -56,7 +59,12 @@ function loadData() {
         html: items.join( "" )
         
         }).appendTo( "#nytimes-header" );
-    }); 
+        
+        
+        
+    }).error(function() {
+            $nytHeaderElem.text('NYT articles could NOT be loaded');
+          });; 
 
     
     return false;
