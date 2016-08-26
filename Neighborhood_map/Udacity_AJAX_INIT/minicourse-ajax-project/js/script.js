@@ -10,8 +10,6 @@ function loadData() {
     var streetStr = $('#street').val();
     var cityStr = $('#city').val();
     var address = streetStr + ', ' + cityStr;
-    
-  ;
 
     // clear out old data before new request
     $wikiElem.text("");
@@ -67,6 +65,29 @@ function loadData() {
           });; 
 
     
+    var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&';
+    wikiUrl += 'search=' + cityStr + '&format=json&callback=wikiCallback';
+
+
+    $.ajax({
+        url: wikiUrl,
+          dataType: "jsonp",
+          success: function (response) {
+              // body...
+              var articleList = response[1];
+              console.log(articleList);
+              console.log(articleList.length);
+              var i=0;
+              for (;i <  articleList.length; i++) {
+                articleStr = articleList[i];
+                var aurl = 'http://en.wikipedia.org/wiki/' + articleStr;
+                $wikiElem.append(
+                    '<li><a href="' + aurl + '">' + articleStr+ '</a></li>'
+                    );
+              }
+          }
+    });
+
     return false;
 };
 
